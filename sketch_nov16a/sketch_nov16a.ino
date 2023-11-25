@@ -25,15 +25,15 @@ void loop() {
 
    if (sensor1Value == 0) 
    {
-       digitalWrite(IN1, HIGH);
+      digitalWrite(IN1, HIGH);
        Serial.println("Pomp uit, geen input");
    } 
    else if (sensor1Value < 300)
    {
-       digitalWrite(IN1, HIGH); //High = pomp is uit 
-       delay (5000);
-       digitalWrite(IN1, LOW); //Low = pomp is aan 
-       delay (5000);
+       digitalWrite(IN1, LOW);
+       delay (8000); //Lengte pomp = aan
+       digitalWrite(IN1, HIGH);
+       delay (10000); //Lengte pomp uit tot nieuwe meting
        Serial.println("Pomp aan");
    }
    else 
