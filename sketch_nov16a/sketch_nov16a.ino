@@ -31,9 +31,9 @@ void loop() {
    else if (sensor1Value < 300)
    {
        digitalWrite(IN1, LOW);
-       delay (8000); //Lengte pomp = aan
+       //delay (8000); //Lengte pomp = aan
        digitalWrite(IN1, HIGH);
-       delay (10000); //Lengte pomp uit tot nieuwe meting
+       //delay (10000); //Lengte pomp uit tot nieuwe meting
        Serial.println("Pomp aan");
    }
    else 
