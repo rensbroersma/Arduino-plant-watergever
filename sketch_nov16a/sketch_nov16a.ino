@@ -1,5 +1,10 @@
 // C++ code
 //
+#include "arduino_secrets.h" //Wifi SSID & Wachtwoord
+#include <WiFiS3.h
+#include <ArduinoMqttClient.h>
+
+
 int Moisture = 0;
 int IN1 = 2;
 int Pin1 = A0;
