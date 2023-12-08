@@ -1,7 +1,7 @@
 // C++ code
 //
 #include "arduino_secrets.h" //Wifi SSID & Wachtwoord
-#include <WiFiS3.h
+#include <WiFiS3.h>
 #include <ArduinoMqttClient.h>
 
 
@@ -33,17 +33,15 @@ void loop() {
       digitalWrite(IN1, HIGH);
        Serial.println("Pomp uit, geen input");
    } 
-   else if (sensor1Value < 300)
+   else if (sensor1Value < 600)
    {
-       digitalWrite(IN1, LOW);
-       //delay (8000); //Lengte pomp = aan
        digitalWrite(IN1, HIGH);
        //delay (10000); //Lengte pomp uit tot nieuwe meting
        Serial.println("Pomp aan");
    }
    else 
    {
-       digitalWrite(IN1, HIGH);
+       digitalWrite(IN1, LOW);
        Serial.println("Pomp uit");
        
        
