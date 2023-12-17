@@ -24,25 +24,25 @@ void setup()
 }
 
 void loop() {
-   Serial.print("Plant 1 - Moisture Level:");
+   Serial.print("Moisture Level:");
    sensor1Value = analogRead(Pin1);
    Serial.println(sensor1Value);
 
    if (sensor1Value == 0) 
    {
-      digitalWrite(IN1, HIGH);
+      digitalWrite(IN1, LOW);
        Serial.println("Pomp uit, geen input");
    } 
-   else if (sensor1Value < 600)
+   else if (sensor1Value > 450)
    {
-       digitalWrite(IN1, HIGH);
-       //delay (10000); //Lengte pomp uit tot nieuwe meting
-       Serial.println("Pomp aan");
+       digitalWrite(IN1, LOW);
+       
+       Serial.println("Pomp uit");
    }
    else 
    {
-       digitalWrite(IN1, LOW);
-       Serial.println("Pomp uit");
+       digitalWrite(IN1, HIGH);
+       Serial.println("Pomp aan");
        
        
    }
