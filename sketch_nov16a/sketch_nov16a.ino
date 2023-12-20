@@ -10,7 +10,7 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 const char broker[] = "192.168.144.1";
 const int port = 1883;
-
+const char topic[] = "rensbroersma/moisture";
 
 int Moisture = 0;
 int IN1 = 2;
@@ -28,9 +28,22 @@ void setup()
     digitalWrite(IN1, HIGH);
 
     delay(500);
+
+    while (WiFi.begin(ssid, pass) != WL_CONNECTED) {delay(5000);
+    }
+    Serial.println("wifi connected");
+    bool MQTTconnected = false;
+    while (!MQTTconnected) {if (!mqttClient.connect(broker, port))delay(1000);
+
+    else
+    MQTTconnected = true;
+    
+    }
+    Serial.println("mqtt connected");
 }
 
 void loop() {
+  mqttClient.poll();
    Serial.print("Moisture Level:");
    sensor1Value = analogRead(Pin1);
    Serial.println(sensor1Value);
@@ -54,4 +67,10 @@ void loop() {
        
    }
    
+   //sensor1Value
+   mqttClient.beginMessage(topic,true,0);
+   mqttClient.print(sensor1Value);
+   mqttClient.endMessage();
+   delay(1000);
 }
+
