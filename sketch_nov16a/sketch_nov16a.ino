@@ -4,6 +4,7 @@
 #include <WiFiS3.h>
 #include <ArduinoMqttClient.h>
 
+//Variabelen voor WiFi en MQTT-verbinding
 char ssid[] = SECRET_SSID;
 char pass[] = SECRET_PASS;
 WiFiClient wifiClient;
@@ -12,6 +13,7 @@ const char broker[] = "192.168.144.1";
 const int port = 1883;
 const char topic[] = "rensbroersma/moisture";
 
+//Variabelen voor sensor en pomp
 int Moisture = 0;
 int IN1 = 2;
 int Pin1 = A0;
@@ -29,15 +31,19 @@ void setup()
 
     delay(500);
 
-    while (WiFi.begin(ssid, pass) != WL_CONNECTED) {delay(5000);
+    //Wifi-verbinding
+    while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
+      delay(5000);
     }
     Serial.println("wifi connected");
-    bool MQTTconnected = false;
-    while (!MQTTconnected) {if (!mqttClient.connect(broker, port))delay(1000);
 
+    //MQTT-verbinding 
+    bool MQTTconnected = false;
+    while (!MQTTconnected) {
+      if (!mqttClient.connect(broker, port))
+      delay(1000);
     else
     MQTTconnected = true;
-    
     }
     Serial.println("mqtt connected");
 }
@@ -67,7 +73,7 @@ void loop() {
        
    }
    
-   //sensor1Value
+   //Bericht publiceren naar MQTT-server 
    mqttClient.beginMessage(topic,true,0);
    mqttClient.print(sensor1Value);
    mqttClient.endMessage();
