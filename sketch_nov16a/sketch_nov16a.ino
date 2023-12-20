@@ -4,6 +4,13 @@
 #include <WiFiS3.h>
 #include <ArduinoMqttClient.h>
 
+char ssid[] = SECRET_SSID;
+char pass[] = SECRET_PASS;
+WiFiClient wifiClient;
+MqttClient mqttClient(wifiClient);
+const char broker[] = "192.168.144.1";
+const int port = 1883;
+
 
 int Moisture = 0;
 int IN1 = 2;
