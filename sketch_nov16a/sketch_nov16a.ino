@@ -29,7 +29,7 @@ void setup()
 
     digitalWrite(IN1, HIGH);
 
-    delay(500);
+    delay(5000);
 
     //Wifi-verbinding
     while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
@@ -63,15 +63,16 @@ void loop() {
    {
        digitalWrite(IN1, LOW);
        
-       Serial.println("Pomp uit");
+       Serial.println("Pomp aan");
    }
    else 
    {
        digitalWrite(IN1, HIGH);
-       Serial.println("Pomp aan");
+       Serial.println("Pomp uit");
        
        
    }
+   
    
    //Bericht publiceren naar MQTT-server 
    mqttClient.beginMessage(topic,true,0);
