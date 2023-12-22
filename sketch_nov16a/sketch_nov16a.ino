@@ -67,7 +67,7 @@ void loop() {
        Serial.println("Pomp uit, geen input");
        digitalWrite(4, HIGH);
    } 
-   else if (sensor1Value > 450)
+   else if (sensor1Value < 450)
    {
        digitalWrite(IN1, LOW);
        
@@ -77,7 +77,6 @@ void loop() {
    else 
    {
        digitalWrite(IN1, HIGH);
-       digitalWrite(4, HIGH);
        Serial.println("Pomp uit");
        
        
@@ -103,7 +102,7 @@ void onMqttMessage(int messageSize) {
       Serial.println(message);
     num = message.toFloat();
     Serial.println(num);
-      if (num < 25.0){
+      if (num > 25.0){
         digitalWrite(lightPin, HIGH);
       }
       else{
