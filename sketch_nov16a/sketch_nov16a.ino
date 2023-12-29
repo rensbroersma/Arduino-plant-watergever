@@ -1,34 +1,34 @@
 // C++ code
-//
 #include "arduino_secrets.h" //Wifi SSID & Wachtwoord
 #include <WiFiS3.h>
 #include <ArduinoMqttClient.h>
 
 //Variabelen voor WiFi en MQTT-verbinding
+
+const char BROKER[] = "192.168.144.1";
+const int PORT = 1883;
+const char PUBLISH_TOPIC[] = "rensbroersma/moisture";
+const char SUBSCRIBE_TOPIC[] = "dionstroet/temperatuur";
 char ssid[] = SECRET_SSID;
 char pass[] = SECRET_PASS;
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
-const char broker[] = "192.168.144.1";
-const int port = 1883;
-const char publishTopic[] = "rensbroersma/moisture";
-const char subscribeTopic[] = "dionstroet/temperatuur";
 
 //Variabelen voor sensor en pomp
-int Moisture = 0;
-int IN1 = 2;
-int Pin1 = A0;
+int soilMoisture = 0;
+int in1 = 2;
+int pin1 = A0;
 int sensor1Value = 0;
 int lightPin = 4;
 
 
-void setup() 
+void Setup() 
 {
     Serial.begin(9600);
 
-    pinMode(IN1, OUTPUT);
+    pinMode(in1, OUTPUT);
 
-    pinMode(Pin1, INPUT);
+    pinMode(pin1, INPUT);
 
     pinMode(lightPin, OUTPUT);
 
@@ -43,7 +43,7 @@ void setup()
     //MQTT-verbinding 
     bool MQTTconnected = false;
     while (!MQTTconnected) {
-      if (!mqttClient.connect(broker, port))
+      if (!mqttClient.connect(BROKER, PORT))
       delay(1000);
     else
     MQTTconnected = true;
@@ -52,31 +52,31 @@ void setup()
 
 
     mqttClient.onMessage(onMqttMessage);
-    mqttClient.subscribe(subscribeTopic);
+    mqttClient.subscribe(SUBSCRIBE_TOPIC);
 }
 
-void loop() {
+void Loop() {
   mqttClient.poll();
    Serial.print("Moisture Level:");
-   sensor1Value = analogRead(Pin1);
+   sensor1Value = analogRead(pin1);
    Serial.println(sensor1Value);
 
    if (sensor1Value == 0) 
    {
-      digitalWrite(IN1, HIGH);
+      digitalWrite(in1, HIGH);
        Serial.println("Pomp uit, geen input");
        digitalWrite(4, HIGH);
    } 
    else if (sensor1Value < 450)
    {
-       digitalWrite(IN1, LOW);
+       digitalWrite(in1, LOW);
        
        
        Serial.println("Pomp aan");
    }
    else 
    {
-       digitalWrite(IN1, HIGH);
+       digitalWrite(in1, HIGH);
        Serial.println("Pomp uit");
        
        
@@ -84,13 +84,13 @@ void loop() {
    
    
    //Bericht publiceren naar MQTT-server 
-   mqttClient.beginMessage(publishTopic,true,0);
+   mqttClient.beginMessage(PUBLISH_TOPIC,true,0);
    mqttClient.print(sensor1Value);
    mqttClient.endMessage();
    delay(1000);
 }
 
-void onMqttMessage(int messageSize) { 
+void OnMqttMessage(int messageSize) { 
     Serial.print("Received a message with topic '");
     Serial.println(mqttClient.messageTopic());
     float num;
@@ -113,5 +113,4 @@ void onMqttMessage(int messageSize) {
 
 
    
-
 
