@@ -22,7 +22,7 @@ int sensor1Value = 0;
 int lightPin = 4;
 
 
-void Setup() 
+void setup() 
 {
     Serial.begin(9600);
 
@@ -51,11 +51,12 @@ void Setup()
     Serial.println("mqtt connected");
 
 
-    mqttClient.onMessage(onMqttMessage);
+    mqttClient.onMessage(OnMqttMessage);
     mqttClient.subscribe(SUBSCRIBE_TOPIC);
 }
 
-void Loop() {
+//Werking pomp
+void loop() {
   mqttClient.poll();
    Serial.print("Moisture Level:");
    sensor1Value = analogRead(pin1);
@@ -90,6 +91,7 @@ void Loop() {
    delay(1000);
 }
 
+//Bericht ontvangen van MQTT-server
 void OnMqttMessage(int messageSize) { 
     Serial.print("Received a message with topic '");
     Serial.println(mqttClient.messageTopic());
@@ -109,6 +111,8 @@ void OnMqttMessage(int messageSize) {
         digitalWrite(lightPin, LOW);
       }
 }
+
+
    
 
 
